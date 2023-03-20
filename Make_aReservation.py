@@ -1,13 +1,35 @@
 """
-Specification
-Program should prompt user what to do.
-What do you want to do:
+1. Make a reservation:
+User should be prompted to give his full name, and date of a reservation
+this should fail if:
 
-1. Make a reservation
-2. Cancel a reservation
-3. Print schedule
-4. Save schedule to a file
-5. Exit
+User has more than 2 reservations already this week
+Court is already reserved for the time user specified
+The date user gives is less than one hour from now
+
+If the court is reserved the system should suggest the user to make a reservation on the closest possible time.
+For example:
+
+$ Make a reservation
+
+What's your Name?
+
+$ Jeff Spicoli
+
+When would you like to book? {DD.MM.YYYY HH:MM}
+
+$ 1.04.2023 15:00
+
+The time you chose is unavailable, would you like to make a reservation for 16:00 instead? (yes/no)
+# If the user chooses No, take them back to the previous step.
+
+$ Yes
+
+How long would you like to book court?  # Display possible periods in 30 minute intervals up to 90 minutes.
+If the court is reserved from 17:00 you should only show the first 2 options.
+1) 30 Minutes
+2) 60 Minutes
+3) 90 Minutes
 """
 
 
