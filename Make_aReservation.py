@@ -31,11 +31,24 @@ If the court is reserved from 17:00 you should only show the first 2 options.
 2) 60 Minutes
 3) 90 Minutes
 """
+from datetime import datetime, timedelta
 
 
 class ReservationSystem:
+    # I'm creating empty dict to save items to them
+    def __init__(self):
+        self.schedule = {}
+
     def make_reservation(self):
-        pass
+        full_name = input("Please provide your full name:")
+        reservation_time = input("Please provide your data of reservation: (DD.MM.YYYY HH:MM)")
+        reservation_time = datetime.strptime(reservation_time, "%d.%m.%Y %H:%M")
+
+        # Check if date user gives is less than one hour from now
+        if reservation_time < datetime.now() + timedelta(hours=1):
+            print("Reservation time should be at least 1 hour from now.")
+            return
+
 
     def cancel_reservation(self):
         pass
