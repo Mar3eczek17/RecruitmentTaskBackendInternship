@@ -52,5 +52,4 @@ class ReservationSystem:
                 print()
 
 
-reservation_system = ReservationSystem()
-reservation_system.run()
+ReservationSystem().run()
