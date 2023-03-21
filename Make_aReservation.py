@@ -3,9 +3,7 @@
 User should be prompted to give his full name, and date of a reservation
 this should fail if:
 
-User has more than 2 reservations already this week
 Court is already reserved for the time user specified
-The date user gives is less than one hour from now
 
 If the court is reserved the system should suggest the user to make a reservation on the closest possible time.
 For example:
@@ -40,8 +38,8 @@ class ReservationSystem:
         self.schedule = {}
 
     def make_reservation(self):
-        full_name = input("Please provide your full name:")
-        reservation_time = input("Please provide your data of reservation: (DD.MM.YYYY HH:MM)")
+        name = input("Please provide your full name:")
+        reservation_time = input("Please provide your data of reservation: (DD.MM.YYYY HH:MM):")
         reservation_time = datetime.strptime(reservation_time, "%d.%m.%Y %H:%M")
 
         # Check if date user gives is less than one hour from now
@@ -49,6 +47,21 @@ class ReservationSystem:
             print("Reservation time should be at least 1 hour from now.")
             return
 
+        # User has more than 2 reservations already this week
+        week_start = datetime.now().date() - timedelta(days=datetime.now().weekday())
+        week_end = week_start + timedelta(days=6)
+        reservations_this_week = sum(1 for res in self.schedule.values() if res['full_name'] == name
+                                     and week_start <= res['reservation_time'].date() <= week_end)
+        if reservations_this_week >= 2:
+            print("You have already made 2 or more reservations this week.")
+            return
+
+        # Save reservation
+        self.schedule[len(self.schedule) + 1] = {
+            'full_name': name,
+            'reservation_time': reservation_time
+        }
+        print("Reservation made successfully.")
 
     def cancel_reservation(self):
         pass
@@ -68,6 +81,7 @@ class ReservationSystem:
                            "4. Save schedule to a file\n"
                            "5. Exit\n")
             if action == "1":
+                print("$ Make a reservation")
                 self.make_reservation()
                 print()
             elif action == "2":
